@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SaaS Flow Pro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">SaaS<span>Flow</span></div>
+        <nav>
+            <a href="#" class="active">📊 Dashboard</a>
+            <a href="#">👥 Usuarios</a>
+            <a href="#">⚙️ Configuración</a>
+        </nav>
+    </div>
+
+    <main class="content">
+        <header>
+            <h1>Gestión de Proyectos</h1>
+            <p>Control total sobre tus entidades CRUD</p>
+        </header>
+
+        <section class="add-section">
+            <form action="/add_project" method="POST">
+                <input type="text" name="title" placeholder="Nombre del nuevo proyecto..." required>
+                <button type="submit">Crear Proyecto</button>
+            </form>
+        </section>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre del Proyecto</th>
+                        <th>Propietario</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in projects %}
+                    <tr>
+                        <td>#{{ p['id'] }}</td>
+                        <td><strong>{{ p['title'] }}</strong></td>
+                        <td>User_{{ p['user_id'] }}</td>
+                        <td><span class="badge">Activo</span></td>
+                        <td>
+                            <a href="/delete/{{ p['id'] }}" class="btn-delete">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
