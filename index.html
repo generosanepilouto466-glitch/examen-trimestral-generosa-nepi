@@ -2,29 +2,53 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>SaaS Flow Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS GESTION DE PROYECTOS</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <div class="sidebar">
-        <div class="logo">SaaS<span>Flow</span></div>
+        <div class="logo">SaaS<span>Empresarial</span></div>
         <nav>
-            <a href="#" class="active">📊 Dashboard</a>
-            <a href="#">👥 Usuarios</a>
-            <a href="#">⚙️ Configuración</a>
-        </nav>
+    <a href="/">📊 Dashboard</a>
+    <a href="/usuarios">👥 Usuarios</a>
+    <a href="/configuracion">⚙️ Configuración</a>
+</nav>
     </div>
 
     <main class="content">
         <header>
-            <h1>Gestión de Proyectos</h1>
-            <p>Control total sobre tus entidades CRUD</p>
+            <h1>SaaS Gestor de proyectos <span class="badge">v1.0</span></h1>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>{{ stats.total_users }}</h3>
+                    <p>Usuarios</p>
+                </div>
+                <div class="stat-card">
+                    <h3>{{ stats.total_tasks }}</h3>
+                    <p>Tareas Totales</p>
+                </div>
+                <div class="stat-card">
+                    <h3>{{ stats.active_subs }}</h3>
+                    <p>Suscripciones Pro</p>
+                </div>
+            </div>
         </header>
 
         <section class="add-section">
-            <form action="/add_project" method="POST">
-                <input type="text" name="title" placeholder="Nombre del nuevo proyecto..." required>
+            <h2>Crear Nuevo Proyecto</h2>
+            <form action="/add_project" method="POST" class="flex-form">
+                <input type="text" name="title" placeholder="Nombre del proyecto..." required>
+                
+                <select name="user_id">
+                    <option value="" disabled selected>Asignar Usuario</option>
+                    {% for u in users %}
+                    <option value="{{ u.id }}">{{ u.name }}</option>
+                    {% endfor %}
+                </select>
+                
                 <button type="submit">Crear Proyecto</button>
             </form>
         </section>
@@ -34,21 +58,21 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nombre del Proyecto</th>
+                        <th>Proyecto</th>
                         <th>Propietario</th>
-                        <th>Estado</th>
+                        <th>Suscripción</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for p in projects %}
                     <tr>
-                        <td>#{{ p['id'] }}</td>
-                        <td><strong>{{ p['title'] }}</strong></td>
-                        <td>User_{{ p['user_id'] }}</td>
-                        <td><span class="badge">Activo</span></td>
+                        <td>#{{ p.id }}</td>
+                        <td><strong>{{ p.title }}</strong></td>
+                        <td>{{ p.owner_name if p.owner_name else 'Sin asignar' }}</td>
+                        <td><span class="plan-tag">Pro</span></td>
                         <td>
-                            <a href="/delete/{{ p['id'] }}" class="btn-delete">Eliminar</a>
+                            <a href="/delete/{{ p.id }}" class="btn-delete" onclick="return confirm('¿Eliminar proyecto?')">Eliminar</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -56,5 +80,6 @@
             </table>
         </div>
     </main>
+
 </body>
 </html>
