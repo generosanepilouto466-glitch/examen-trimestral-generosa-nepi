@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SaaS Empresarial - Usuarios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">SaaS<span>Empresarial</span></div>
+        <nav>
+    <a href="/">📊 Dashboard</a>
+    <a href="/usuarios">👥 Usuarios</a>
+    <a href="#">⚙️ Configuración</a>
+</nav>
+    </div>
+
+    <main class="content">
+    <header>
+        <h1>Gestión de Usuarios</h1>
+        <p>Añade nuevos clientes a tu plataforma</p>
+    </header>
+
+    <section class="add-section">
+        <form action="/add_user" method="POST" class="flex-form">
+            <input type="text" name="name" placeholder="Nombre completo..." required>
+            <input type="email" name="email" placeholder="Correo electrónico..." required>
+            <button type="submit">Registrar Usuario</button>
+        </form>
+    </section>
+
+    <div class="table-container">
+        <table>
+            ...
+        </table>
+    </div>
+</main>
+</body>
+</html>
