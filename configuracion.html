@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Configuración de Usuarios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="sidebar">
+    <div class="logo">SaaS<span>Empresarial</span></div>
+    <nav>
+        <a href="/">📊 Dashboard</a>
+        <a href="/usuarios">👥 Usuarios</a>
+        <a href="/configuracion">⚙️ Configuración</a>
+    </nav>
+</div>
+
+<div class="content">
+    <h2>⚙️ Configuración de Usuarios</h2>
+    <div class="table-container">
+        {% if usuarios %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Plan</th>
+                    <th>Cambiar Plan</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for usuario in usuarios %}
+               <tr>
+    <td>{{ usuario.id }}</td>
+    <td>{{ usuario.name }}</td>
+    <td><span class="plan-tag">{{ usuario.suscripcion }}</span></td>
+    <td>
+        <form class="flex-form" method="POST" action="/actualizar_suscripcion/{{ usuario.id }}">
+            <select name="suscripcion">
+                <option value="Free" {% if usuario.suscripcion == "Free" %}selected{% endif %}>Free</option>
+                <option value="Pro" {% if usuario.suscripcion == "Pro" %}selected{% endif %}>Pro</option>
+            </select>
+            <button type="submit">Guardar</button>
+        </form>
+    </td>
+    <td>
+        <<form method="POST" action="/eliminar_suscripcion/{{ usuario.id }}" onsubmit="return confirm('¿Seguro que quieres eliminar la suscripción de este usuario?');">
+    <button type="submit" class="btn-delete">Eliminar</button>
+</form>
+    </td>
+</tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay usuarios registrados.</p>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>
+
